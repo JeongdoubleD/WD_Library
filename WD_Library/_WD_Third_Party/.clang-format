@@ -1,0 +1,3 @@
+# Third-party code is kept as provided by the vendor (SW-STD-C-001 section 9) : never reformat
+DisableFormat: true
+SortIncludes: Never

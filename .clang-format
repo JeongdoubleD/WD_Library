@@ -1,0 +1,52 @@
+# WD Library formatter settings - SW-STD-C-001 GEN-S-003 (4 spaces, no tabs, 100 columns)
+# Requires clang-format >= 16 (InsertBraces). Third-party code is excluded by _WD_Third_Party/.clang-format
+---
+Language: Cpp
+BasedOnStyle: LLVM
+Standard: c++03                 # C code : disables C++-only formatting
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+ContinuationIndentWidth: 4
+ColumnLimit: 100
+
+# braces (GEN-M-010 : always braces, K&R attach like the standard examples)
+BreakBeforeBraces: Attach
+InsertBraces: true
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: None
+AllowShortCaseLabelsOnASingleLine: false
+
+# switch (GEN-M-011 example layout)
+IndentCaseLabels: false
+IndentCaseBlocks: false
+
+# spacing
+SpaceBeforeParens: ControlStatements
+SpaceAfterCStyleCast: false
+PointerAlignment: Right
+SpacesInParens: Never
+
+# alignment (keeps register / macro tables readable)
+AlignConsecutiveMacros: Consecutive
+AlignConsecutiveAssignments: None
+AlignConsecutiveDeclarations: None
+AlignEscapedNewlines: Left
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 0
+
+# preprocessor / includes (include order is significant in WD.h : never sort)
+SortIncludes: Never
+IndentPPDirectives: None
+
+# misc
+KeepEmptyLines:
+  AtStartOfBlock: false
+MaxEmptyLinesToKeep: 2
+ReflowComments: false
+InsertNewlineAtEOF: true
+LineEnding: CRLF
+...

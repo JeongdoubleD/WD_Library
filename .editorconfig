@@ -1,0 +1,22 @@
+# SW-STD-C-001 GEN-S-003 : 4 spaces, no tabs, max 100 columns
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{c,h}]
+indent_style = space
+indent_size = 4
+max_line_length = 100
+
+[WD_Library/_WD_Third_Party/**]
+indent_style = unset
+indent_size = unset
+max_line_length = unset
+trim_trailing_whitespace = false
+
+[*.md]
+trim_trailing_whitespace = false

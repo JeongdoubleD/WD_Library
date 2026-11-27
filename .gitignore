@@ -1,0 +1,21 @@
+# Build outputs
+Debug/
+Release/
+**/Debug/
+**/Release/
+*.o
+*.d
+*.elf
+*.map
+*.list
+*.su
+*.cyclo
+# IDE
+.metadata/
+.settings/
+*.launch
+.vscode/
+
+# build check output
+_build_check/
+

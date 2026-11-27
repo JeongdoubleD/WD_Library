@@ -1,0 +1,6 @@
+*.c text eol=crlf
+*.h text eol=crlf
+*.md text eol=crlf
+*.ld text eol=crlf
+*.sh text eol=lf
+*.diff -text
