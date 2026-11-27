@@ -1,0 +1,66 @@
+--- a/Ethernet/socket.c	2026-11-27 08:05:14.443009700 +0900
++++ b/Ethernet/socket.c	2026-11-27 08:05:14.545415500 +0900
+@@ -299,8 +299,10 @@
+ 
+    freesize = getSn_TxMAX(sn);
+    if (len > freesize) len = freesize; // check size not to exceed MAX size.
++   WIZCHIP_PORT_WAIT_START(wd_wait_send);   /* WD-PATCH-1 */
+    while(1)
+    {
++      WIZCHIP_PORT_WAIT_CHECK(wd_wait_send, "send");   /* WD-PATCH-1 */
+       freesize = (datasize_t)getSn_TX_FSR(sn);
+       tmp = getSn_SR(sn);
+       if ((tmp != SOCK_ESTABLISHED) && (tmp != SOCK_CLOSE_WAIT))
+@@ -349,8 +351,10 @@
+  
+    recvsize = getSn_RxMAX(sn); 
+    if(recvsize < len) len = recvsize;
++   WIZCHIP_PORT_WAIT_START(wd_wait_recv);   /* WD-PATCH-1 */
+    while(1)
+    {
++      WIZCHIP_PORT_WAIT_CHECK(wd_wait_recv, "recv");   /* WD-PATCH-1 */
+       recvsize = (datasize_t)getSn_RX_RSR(sn);
+       tmp = getSn_SR(sn);
+       if (tmp != SOCK_ESTABLISHED && tmp != SOCK_CLOSE_WAIT)
+@@ -409,8 +413,10 @@
+    freesize = getSn_TxMAX(sn);
+    if (len > freesize) len = freesize; // check size not to exceed MAX size.
+   
++   WIZCHIP_PORT_WAIT_START(wd_wait_sendto_buf);   /* WD-PATCH-1 */
+    while(1)
+    {
++      WIZCHIP_PORT_WAIT_CHECK(wd_wait_sendto_buf, "sendto");   /* WD-PATCH-1 */
+       freesize = getSn_TX_FSR(sn);
+       if(getSn_SR(sn) == SOCK_CLOSED) return SOCKERR_SOCKCLOSED;
+       if(len <= freesize) break;
+@@ -420,8 +426,10 @@
+    setSn_CR(sn,tcmd);
+    while(getSn_CR(sn));
+   
++   WIZCHIP_PORT_WAIT_START(wd_wait_sendto_ok);   /* WD-PATCH-1 */
+    while(1)
+    {
++      WIZCHIP_PORT_WAIT_CHECK(wd_wait_sendto_ok, "sendto");   /* WD-PATCH-1 */
+       tmp = getSn_IR(sn);
+       if(tmp & Sn_IR_SENDOK)
+       {
+@@ -453,8 +461,10 @@
+   
+    if(sock_remained_size[sn] == 0)
+    {
++      WIZCHIP_PORT_WAIT_START(wd_wait_recvfrom);   /* WD-PATCH-1 */
+       while(1)
+       {
++         WIZCHIP_PORT_WAIT_CHECK(wd_wait_recvfrom, "recvfrom");   /* WD-PATCH-1 */
+          pack_len = getSn_RX_RSR(sn);
+          if(getSn_SR(sn) == SOCK_CLOSED) return SOCKERR_SOCKCLOSED;
+          if(pack_len != 0)
+--- a/Application/Application.h	2026-11-27 08:05:14.441010100 +0900
++++ b/Application/Application.h	2026-11-27 08:05:14.628187500 +0900
+@@ -15,4 +15,6 @@
+ #define AS_IPV4 2
+ #define AS_IPV6 23
+ #define AS_IPDUAL 11
++/* WD-PATCH-2 : WD Library port layer (bounded waits, symbols the io6Library expects from the application) */
++#include "_wd_w6100_port.h"
+ #endif
